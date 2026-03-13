@@ -18,16 +18,27 @@
     </div>
 
     <script>
-        function sendName() {
-            const nameValue = document.getElementById('userName').value;
-            fetch('/api/submit-name', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: nameValue })
-            }).then(() => {
-                window.location.href = "greeting.html"; 
-            });
+    function sendName() {
+        const nameInput = document.getElementById('userName');
+        const nameValue = nameInput.value;
+
+        if (!nameValue) {
+            alert("Please enter a name!");
+            return;
         }
-    </script>
+
+        fetch('/api/submit-name', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: nameValue })
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = "greeting.html";
+            }
+        })
+        .catch(err => console.error("Error:", err));
+    }
+</script>
 </body>
 </html>
